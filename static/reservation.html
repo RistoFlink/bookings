@@ -144,7 +144,21 @@
 		console.log("I am printing from JS");
 		document.getElementById("colorButton").addEventListener("click", function() {
 			//notify("This is only a test", "success")	
-			attention.error({msg: "Oops"});
+			let html = `
+			<form id="check-availability-form" action="" method="post" novalidate class="needs-validation container text-center">
+				<div row row-cols-2>
+						<div class="row" id="reservation-dates-modal">
+							<div class="col">
+								<input required class="form-control" type="text" name="start" id="start" placeholder="Arrival" value="">
+							</div>
+							<div class="col">
+								<input required class="form-control" type="text" name="end" id="end" placeholder="Departure" value="">
+							</div>
+						</div>	
+				</div>	
+			</form>
+			`
+			attention.custom({msg: html, title: "Choose your dates"})
 		})
 
 		const elem = document.getElementById('reservation-dates');
@@ -168,6 +182,7 @@
 		  		confirmButtonText: buttonText
 			})
 		}
+
 		function Prompt() {
 			let toast = function (c) {
 				const {
@@ -221,10 +236,44 @@
 					footer: footer,
 				})
 			}
+
+			async function custom(c) {
+				const {
+					msg = "",
+					title = "",
+				} = c;
+
+				const { value: formValues } = await Swal.fire({
+				  title: title,
+				  html: msg,
+				  focusConfirm: false,
+				  backdrop: false,
+				  showCancelButton: true,
+				  willOpen: () => {
+					const elem = document.getElementById("reservation-dates-modal");
+					const rp = new DateRangePicker(elem, {
+						format: "yyyy-mm-dd",
+						showOnFocus: false,
+						orientation: "top",
+					})
+				  },
+				  preConfirm: () => {
+					return [
+					  document.getElementById("start").value,
+					  document.getElementById("end").value
+					];
+				  }
+				});
+				if (formValues) {
+				  Swal.fire(JSON.stringify(formValues));
+				}
+			}
+
 			return {
 				toast: toast,
 				success: success,
 				error: error,
+				custom: custom,
 			}
 		}
 
