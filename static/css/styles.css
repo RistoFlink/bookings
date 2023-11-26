@@ -17,3 +17,7 @@
 	box-shadow: none;
 	max-width: 50%;
 }
+
+.datepicker {
+	z-index: 10000;
+}
