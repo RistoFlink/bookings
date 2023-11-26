@@ -180,12 +180,9 @@
 				  backdrop: true,
 				  showCancelButton: true,
 				  willOpen: () => {
-					const elem = document.getElementById("reservation-dates-modal");
-					const rp = new DateRangePicker(elem, {
-						format: "yyyy-mm-dd",
-						showOnFocus: false,
-						orientation: "top",
-					})
+					  if (c.willOpen !== undefined) {
+						  c.willOpen();
+					  }
 				  },
 				  preConfirm: () => {
 					return [

@@ -41,10 +41,31 @@
 					</div>	
 				</form>
 				`
-				attention.custom({msg: html, title: "Choose your dates", callback: function(result) {
-					console.log("called")
+				attention.custom({
+					msg: html,
+					title: "Choose your dates",
+					
+					
+					willOpen: () => {
+						const elem = document.getElementById("reservation-dates-modal");
+						const rp = new DateRangePicker(elem, {
+							format: "yyyy-mm-dd",
+							showOnFocus: false,
+							orientation: "top",
+						})
+					  },
 
-					fetch("/search-availability-json")
+					callback: function(result) {
+						console.log("called")
+
+						let form = document.getElementById("check-availability-form");
+						let formData = new FormData(form);
+						formData.append("csrf_token", "{{.CSRFToken}}");
+
+						fetch("/search-availability-json", {
+							method: "post",
+							body: formData,
+					})
 						.then(response => response.json())
 						.then(data => {
 							console.log(data);
