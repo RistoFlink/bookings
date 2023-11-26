@@ -78,8 +78,8 @@ func (m *Repository) Availability(w http.ResponseWriter, r *http.Request) {
 
 // PostAvailability renders the search availability page
 func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
-	start := r.Form.Get("start_date")
-	end := r.Form.Get("end_date")
+	start := r.Form.Get("start")
+	end := r.Form.Get("end")
 
 	w.Write([]byte(fmt.Sprintf("Start date is %s, and end date is %s", start, end)))
 }
@@ -101,8 +101,6 @@ func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-
-	log.Println(string(out))
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
