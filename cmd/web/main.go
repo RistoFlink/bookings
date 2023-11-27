@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/RistoFlink/bookings/pkg/config"
-	"github.com/RistoFlink/bookings/pkg/handlers"
-	"github.com/RistoFlink/bookings/pkg/render"
+	"github.com/RistoFlink/bookings/internal/config"
+	"github.com/RistoFlink/bookings/internal/handlers"
+	"github.com/RistoFlink/bookings/internal/render"
 	"github.com/alexedwards/scs/v2"
 )
 

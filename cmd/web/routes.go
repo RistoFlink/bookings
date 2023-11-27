@@ -3,8 +3,8 @@ package main
 import (
 	"net/http"
 
-	"github.com/RistoFlink/bookings/pkg/config"
-	"github.com/RistoFlink/bookings/pkg/handlers"
+	"github.com/RistoFlink/bookings/internal/config"
+	"github.com/RistoFlink/bookings/internal/handlers"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
 )

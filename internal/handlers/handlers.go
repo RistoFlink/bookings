@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/RistoFlink/bookings/pkg/config"
-	"github.com/RistoFlink/bookings/pkg/models"
-	"github.com/RistoFlink/bookings/pkg/render"
+	"github.com/RistoFlink/bookings/internal/config"
+	"github.com/RistoFlink/bookings/internal/models"
+	"github.com/RistoFlink/bookings/internal/render"
 )
 
 // Repository is the repository type
