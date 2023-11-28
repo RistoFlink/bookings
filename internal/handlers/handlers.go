@@ -100,6 +100,11 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
+
+	m.App.Session.Put(r.Context(), "reservation", reservation)
+
+	// good practice: any time you receive a POST request, direct the user to a new page with an HTTP redirect
+	http.Redirect(w, r, "/reservation-summary", http.StatusSeeOther)
 }
 
 // Generals renders the room page for the General's Quarters
@@ -150,4 +155,18 @@ func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 // Contact renders the contact page
 func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, r, "contact.page.tmpl", &models.TemplateData{})
+}
+
+func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) {
+	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
+	if !ok {
+		log.Println("cannot get item from session")
+		return
+	}
+	data := make(map[string]interface{})
+	data["reservation"] = reservation
+
+	render.RenderTemplate(w, r, "reservation-summary.page.tmpl", &models.TemplateData{
+		Data: data,
+	})
 }

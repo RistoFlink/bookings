@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"log"
 	"net/http"
@@ -8,6 +9,7 @@ import (
 
 	"github.com/RistoFlink/bookings/internal/config"
 	"github.com/RistoFlink/bookings/internal/handlers"
+	"github.com/RistoFlink/bookings/internal/models"
 	"github.com/RistoFlink/bookings/internal/render"
 	"github.com/alexedwards/scs/v2"
 )
@@ -20,14 +22,8 @@ var session *scs.SessionManager
 
 // main is the main application function
 func main() {
-	//fmt.Println("vim-go")
-	//http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-	//	n, err := fmt.Fprintf(w, "Hello, world")
-	//	if err != nil {
-	//		fmt.Println("Error occurred:", err)
-	//	}
-	//	fmt.Println(fmt.Sprintf("Number of bytes written was: %d", n))
-	//})
+	// what will be put into the session
+	gob.Register(models.Reservation{})
 
 	// change this to true when in production
 	app.InProduction = false
