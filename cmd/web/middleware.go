@@ -1,19 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/justinas/nosurf"
 )
-
-// WriteToConsole is just a test function to see how one can write own middleware
-func WriteToConsole(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("Hit the page")
-		next.ServeHTTP(w, r)
-	})
-}
 
 // all middleware must take and return a handler!
 
