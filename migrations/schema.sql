@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 15.4
--- Dumped by pg_dump version 15.4
+-- Dumped from database version 16.1
+-- Dumped by pg_dump version 16.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -53,7 +53,7 @@ CREATE SEQUENCE public.reservations_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.reservations_id_seq OWNER TO ristof;
+ALTER SEQUENCE public.reservations_id_seq OWNER TO ristof;
 
 --
 -- Name: reservations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ristof
@@ -89,7 +89,7 @@ CREATE SEQUENCE public.restrictions_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.restrictions_id_seq OWNER TO ristof;
+ALTER SEQUENCE public.restrictions_id_seq OWNER TO ristof;
 
 --
 -- Name: restrictions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ristof
@@ -129,7 +129,7 @@ CREATE SEQUENCE public.room_restrictions_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.room_restrictions_id_seq OWNER TO ristof;
+ALTER SEQUENCE public.room_restrictions_id_seq OWNER TO ristof;
 
 --
 -- Name: room_restrictions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ristof
@@ -165,7 +165,7 @@ CREATE SEQUENCE public.rooms_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.rooms_id_seq OWNER TO ristof;
+ALTER SEQUENCE public.rooms_id_seq OWNER TO ristof;
 
 --
 -- Name: rooms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ristof
@@ -216,7 +216,7 @@ CREATE SEQUENCE public.users_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.users_id_seq OWNER TO ristof;
+ALTER SEQUENCE public.users_id_seq OWNER TO ristof;
 
 --
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ristof
@@ -301,10 +301,38 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: room_restrictions_reservation_id_idx; Type: INDEX; Schema: public; Owner: ristof
+--
+
+CREATE INDEX room_restrictions_reservation_id_idx ON public.room_restrictions USING btree (reservation_id);
+
+
+--
+-- Name: room_restrictions_room_id_idx; Type: INDEX; Schema: public; Owner: ristof
+--
+
+CREATE INDEX room_restrictions_room_id_idx ON public.room_restrictions USING btree (room_id);
+
+
+--
+-- Name: room_restrictions_start_date_end_date_idx; Type: INDEX; Schema: public; Owner: ristof
+--
+
+CREATE INDEX room_restrictions_start_date_end_date_idx ON public.room_restrictions USING btree (start_date, end_date);
+
+
+--
 -- Name: schema_migration_version_idx; Type: INDEX; Schema: public; Owner: ristof
 --
 
 CREATE UNIQUE INDEX schema_migration_version_idx ON public.schema_migration USING btree (version);
+
+
+--
+-- Name: users_email_idx; Type: INDEX; Schema: public; Owner: ristof
+--
+
+CREATE UNIQUE INDEX users_email_idx ON public.users USING btree (email);
 
 
 --
