@@ -6,24 +6,29 @@ import (
 	"net/http"
 
 	"github.com/RistoFlink/bookings/internal/config"
+	"github.com/RistoFlink/bookings/internal/driver"
 	"github.com/RistoFlink/bookings/internal/forms"
 	"github.com/RistoFlink/bookings/internal/helpers"
 	"github.com/RistoFlink/bookings/internal/models"
 	"github.com/RistoFlink/bookings/internal/render"
+	"github.com/RistoFlink/bookings/internal/repository"
+	"github.com/RistoFlink/bookings/internal/repository/dbrepo"
 )
 
 // Repository is the repository type
 type Repository struct {
 	App *config.AppConfig
+	DB  repository.DatabaseRepo
 }
 
 // Repo is the repository used by the handlers
 var Repo *Repository
 
 // NewRepo creates a new repository
-func NewRepo(a *config.AppConfig) *Repository {
+func NewRepo(a *config.AppConfig, db *driver.DB) *Repository {
 	return &Repository{
 		App: a,
+		DB:  dbrepo.NewPostgresRepo(db.SQL, a),
 	}
 }
 
@@ -38,7 +43,6 @@ func NewHandlers(r *Repository) {
 // Home is the handler for the home page
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, r, "home.page.tmpl", &models.TemplateData{})
-
 }
 
 // About is the handler for the about page
