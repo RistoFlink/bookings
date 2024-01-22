@@ -203,7 +203,7 @@ func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) 
 	sessionValue := m.App.Session.Get(r.Context(), "reservation")
 	if reservation, ok := sessionValue.(models.Reservation); ok {
 		// Successfully retrieved a reservation
-		data := make(map[string]interface{})
+		data := make(map[string]any)
 		data["reservation"] = reservation
 		render.Template(w, r, "reservation-summary.page.tmpl", &models.TemplateData{
 			Data: data,
