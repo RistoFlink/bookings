@@ -14,6 +14,7 @@ import (
 	"github.com/RistoFlink/bookings/internal/render"
 	"github.com/RistoFlink/bookings/internal/repository"
 	"github.com/RistoFlink/bookings/internal/repository/dbrepo"
+	"github.com/go-chi/chi/v5"
 )
 
 // Repository is the repository type
@@ -236,6 +237,7 @@ func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
 	render.Template(w, r, "contact.page.tmpl", &models.TemplateData{})
 }
 
+// ReservationSummary renders a summary of the details of the reservation or redirects if errors occur
 func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) {
 	sessionValue := m.App.Session.Get(r.Context(), "reservation")
 	if reservation, ok := sessionValue.(models.Reservation); ok {
@@ -252,4 +254,25 @@ func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) 
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return
 	}
+}
+
+// ChooseRoom gets the room ID from the users selection and redirects them to the reservation page
+func (m *Repository) ChooseRoom(w http.ResponseWriter, r *http.Request) {
+	roomID, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	res, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
+	if !ok {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	res.RoomID = roomID
+
+	m.App.Session.Put(r.Context(), "reservation", res)
+
+	http.Redirect(w, r, "/make-reservation", http.StatusSeeOther)
 }
